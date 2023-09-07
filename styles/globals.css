@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* In your CSS file */
+.text-chess {
+    font-family: Arial, sans-serif; /* Use a common font that supports chess piece characters */
+  }
+  

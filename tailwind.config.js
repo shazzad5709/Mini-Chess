@@ -8,14 +8,21 @@ module.exports = {
     // Or if using `src` directory:
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  theme: {
-    extend: {
-      colors: {
-        white: '#f3f3f3f3',
-        black: '#000000',
+ 
+    theme: {
+      // Other theme settings...
+      extend: {
+        backgroundColor: {
+          'brown-light': '#D2B48C', // Light brown
+          'brown-dark': '#8B4513',  // Dark brown
+        },
+        textColor: {
+          'chess-white': '#FFFFFF', // White for pieces
+          'chess-black': '#000000', // Black for pieces
+        },
       },
     },
-  },
+  
   plugins: [],
 }
 
