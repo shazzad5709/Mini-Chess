@@ -1,27 +1,32 @@
-// components/Chessboard.tsx
-
 import React from 'react';
-import styles from './Chessboard.module.css';
+
+const pieceIcons = [
+  '♖', '♘', '♗', '♕', '♔', '♗', '♘', '♖',
+  '♙', '♙', '♙', '♙', '♙', '♙', '♙', '♙',
+  '', '', '', '', '', '', '', '',
+  '', '', '', '', '', '', '', '',
+  '', '', '', '', '', '', '', '',
+  '', '', '', '', '', '', '', '',
+  '♟', '♟', '♟', '♟', '♟', '♟', '♟', '♟',
+  '♜', '♞', '♝', '♛', '♚', '♝', '♞', '♜',
+];
 
 const Chessboard: React.FC = () => {
-  const boardSize = 400; // Adjust the size as needed
-
-  const squares = [];
-  for (let row = 0; row < 8; row++) {
-    for (let col = 0; col < 8; col++) {
-      const isDark = (row + col) % 2 === 1;
-      squares.push(
-        <div
-          className={`${styles.square} ${isDark ? styles.dark : styles.light}`}
-          key={`${row}-${col}`}
-        ></div>
-      );
-    }
-  }
-
   return (
-    <div className={styles.chessboard} style={{ width: `${boardSize}px`, height: `${boardSize}px` }}>
-      {squares}
+    <div className="w-64 grid grid-cols-8 gap-0.5">
+      {Array.from({ length: 64 }, (_, index) => (
+        <div
+          key={index}
+          className={`h-16 flex items-center justify-center text-3xl font-bold ${
+            index % 2 === Math.floor(index / 8) % 2
+              ? 'bg-white text-black'
+              : 'bg-gray-600 text-white'
+          }`}
+        >
+          {/* Render your chess pieces here */}
+          {pieceIcons[index]}
+        </div>
+      ))}
     </div>
   );
 };
