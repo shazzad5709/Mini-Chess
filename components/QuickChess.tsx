@@ -20,6 +20,8 @@ const QuickChess: React.FC = () => {
   })
 
   const highlightSelect = 'bg-orange-400'
+  const highlightMove = 'bg-green-400'
+  const [legalMoves, setLegalMoves] = useState<number[][]>([])
 
   // Implement your move logic and AI move calculation
 
@@ -32,12 +34,44 @@ const QuickChess: React.FC = () => {
       setSelectedPiecePosition({ row, col })
       clearHighlightedSquares()
       highlightSquare(row, col)
-
       const legalMoves = generateLegalMoves(selectedPiece, board, row, col)
-      console.log(legalMoves)
+      setLegalMoves(legalMoves)
       highlightLegalMoves(legalMoves)
+    } else if(selectedPiece === null && selectedPiecePosition !== null) {
+        if (isLegalMove(row, col, legalMoves)) {
+          const updatedBoard = makeUserMove(board, selectedPiecePosition, row, col)
+          clearHighlightedSquares()
+          clearHighlightedMove()
+          highlightLastMove(selectedPiecePosition, row, col)
+          setBoard(updatedBoard)
+        }
+    }
+  }
 
-    }    
+  const isLegalMove = (row: number, col: number, legalMoves: number[][]) => {
+    return legalMoves.some(move => {
+      const [legalRow, legalCol] = move
+      return legalRow === row && legalCol === col
+    })
+  }
+
+  const makeUserMove = (board: (string | null)[][], selectedPiecePosition: { row: number; col: number }, row: number, col: number) => {
+    const updatedBoard = [...board]
+    const [selectedRow, selectedCol] = [selectedPiecePosition.row, selectedPiecePosition.col]
+    const selectedPiece = updatedBoard[selectedRow][selectedCol]
+    updatedBoard[selectedRow][selectedCol] = null
+    updatedBoard[row][col] = selectedPiece
+    return updatedBoard
+  }
+
+  const highlightLastMove = (selectedPiecePosition: { row: number; col: number }, row: number, col: number) => {
+    const newSquare = document.querySelector(`.square[data-row="${row}"][data-col="${col}"]`);
+    const oldSquare = document.querySelector(`.square[data-row="${selectedPiecePosition.row}"][data-col="${selectedPiecePosition.col}"]`);
+  
+    if (oldSquare && newSquare) {
+      oldSquare.classList.add(`${highlightMove}`);
+      newSquare.classList.add(`${highlightMove}`);
+    }
   }
 
   const highlightLegalMoves = (legalMoves: number[][]) => {
@@ -61,6 +95,14 @@ const QuickChess: React.FC = () => {
 
     squares.forEach(square => {
       square.classList.remove(`${highlightSelect}`)
+    })
+  }
+
+  const clearHighlightedMove = () => {
+    const squares = document.querySelectorAll('.square')
+
+    squares.forEach(square => {
+      square.classList.remove(`${highlightMove}`)
     })
   }
 
