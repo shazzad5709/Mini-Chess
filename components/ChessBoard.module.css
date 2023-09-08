@@ -1,10 +1,10 @@
 /* components/Chessboard.module.css */
 
-.chessboard {
+/* .chessboard {
     display: grid;
   grid-template-columns: repeat(8, 1fr);
-  width: 400px; /* Adjust as needed */
-  height: 400px; /* Adjust as needed */
+  width: 400px; 
+  height: 400px; 
   }
   
   .square {
@@ -22,5 +22,5 @@
   
   .dark {
     background-color: #b58863;
-  }
+  } */
   

@@ -1,0 +1,14 @@
+
+/* Example Unicode chess symbols for each piece */
+.king-white::before { content: "\2654"; }
+.king-black::before { content: "\265A"; }
+.queen-white::before { content: "\2655"; }
+.queen-black::before { content: "\265B"; }
+.rook-white::before { content: "\2656"; }
+.rook-black::before { content: "\265C"; }
+.bishop-white::before { content: "\2657"; }
+.bishop-black::before { content: "\265D"; }
+.knight-white::before { content: "\2658"; }
+.knight-black::before { content: "\265E"; }
+.pawn-white::before { content: "\2659"; }
+.pawn-black::before { content: "\265F"; }
