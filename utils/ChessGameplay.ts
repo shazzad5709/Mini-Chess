@@ -4,7 +4,7 @@ type Piece = string | null
 
 type Board = Piece[][]
 
-function getPiece(pieceWithColor: string) {
+export function getPiece(pieceWithColor: string) {
   const [pieceName, color] = pieceWithColor.split('-')
   return { pieceName, color }
 }
@@ -79,7 +79,7 @@ export function isCheckmate(board: Board, kingColor: string): boolean {
   return true // No legal moves to get out of check; it's checkmate
 }
 // Function to generate all legal moves for a player
-function generateAllLegalMoves(board: Board, playerColor: string): [number, number][] {
+export function generateAllLegalMoves(board: Board, playerColor: string): [number, number][] {
   const legalMoves: [number, number][] = []
 
   for (let row = 0; row < 6; row++) {

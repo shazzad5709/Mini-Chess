@@ -1,15 +1,17 @@
+import { getPiece } from "./ChessGameplay"
+
+
 type Piece = string | null
 
 type Board = Piece[][]
 
 export function generateLegalMoves(selectedPiece: string | null, board: Board, row: number, col: number) {
-  // Function to check if a position is within the bounds of the board
   let legalMoves: [number, number][] = []
   const piece = board[row][col]
 
   const { pieceName, color } = getPiece(piece!)
 
-  if (piece && color === 'white') {
+  if (piece) {
     const pieceMoves = generatePieceMoves(selectedPiece, board, row, col)
     legalMoves.push(...pieceMoves)
   }
@@ -271,9 +273,4 @@ function generateKingMoves(board: Board, row: number, col: number) {
   }
 
   return moves
-}
-
-function getPiece(pieceWithColor: string) {
-  const [pieceName, color] = pieceWithColor.split('-')
-  return { pieceName, color }
 }

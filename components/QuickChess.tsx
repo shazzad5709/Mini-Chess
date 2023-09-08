@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import Piece from './Piece'
 import { generateLegalMoves } from '@/utils/ChessMoves'
 import { isCheckmate, isKingInCheck } from '@/utils/ChessGameplay'
+import { findBestAIMove } from '@/utils/ChessAI'
 
 const QuickChess: React.FC = () => {
   const initialBoard: (string | null)[][] = [
@@ -29,6 +30,7 @@ const QuickChess: React.FC = () => {
     // selection of a new piece
     if (selectedPiece?.includes('white')) {
       setSelectedPiecePosition({ row, col })
+
       clearHighlightedSquares()
       highlightSquare(row, col)
 
@@ -41,13 +43,16 @@ const QuickChess: React.FC = () => {
     else if ((selectedPiece === null && selectedPiecePosition !== null) || (selectedPiece?.includes('black'))) {
       if (isLegalMove(row, col, legalMoves)) {
         const updatedBoard = makeUserMove(board, selectedPiecePosition, row, col)
+
         clearHighlightedSquares()
         clearHighlightedMove()
+
         highlightLastMove(selectedPiecePosition, row, col)
         setBoard(updatedBoard)
 
-        if (isCheck('black')) {
+        if (isKingInCheck(board, 'black')) {
           highlightKingInCheck('black')
+
           if (isCheckmate(board, 'black')) {
             alert('Checkmate! You win!')
           }
@@ -161,14 +166,25 @@ const QuickChess: React.FC = () => {
     })
   }
 
-  // check if a king is in check
-  const isCheck = (color: string) => {
-    return isKingInCheck(board, color)
-  };
-
   const handleAIMove = () => {
-    // Calculate and execute the AI's move here
-  };
+    const move = findBestAIMove(board, true)
+    if(!move) {
+      return
+    }
+
+    const { fromRow, fromCol, toRow, toCol } = move
+
+    const updatedBoard = makeAIMove(board, fromRow, fromCol, toRow, toCol)
+    setBoard(updatedBoard)
+  }
+
+  const makeAIMove = (board: (string | null)[][], oldRow: number, oldCol: number, newRow: number, newCol: number) => {
+    const updatedBoard = [...board]
+    const selectedPiece = updatedBoard[oldRow][oldCol]
+    updatedBoard[oldRow][oldCol] = null
+    updatedBoard[newRow][newCol] = selectedPiece
+    return updatedBoard
+  }
 
   return (
     <div className='h-screen flex items-center justify-center'>
