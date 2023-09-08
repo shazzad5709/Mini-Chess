@@ -23,28 +23,27 @@ const QuickChess: React.FC = () => {
   const highlightMove = 'bg-green-400'
   const [legalMoves, setLegalMoves] = useState<number[][]>([])
 
-  // Implement your move logic and AI move calculation
-
   const handleSquareClick = (row: number, col: number) => {
     const selectedPiece = board[row][col]
 
-    // console.log(selectedPiece)
-
-    if(selectedPiece?.includes('white')) {
+    if (selectedPiece?.includes('white')) {
       setSelectedPiecePosition({ row, col })
       clearHighlightedSquares()
       highlightSquare(row, col)
+
       const legalMoves = generateLegalMoves(selectedPiece, board, row, col)
       setLegalMoves(legalMoves)
       highlightLegalMoves(legalMoves)
-    } else if(selectedPiece === null && selectedPiecePosition !== null) {
-        if (isLegalMove(row, col, legalMoves)) {
-          const updatedBoard = makeUserMove(board, selectedPiecePosition, row, col)
-          clearHighlightedSquares()
-          clearHighlightedMove()
-          highlightLastMove(selectedPiecePosition, row, col)
-          setBoard(updatedBoard)
-        }
+    } 
+    else if ((selectedPiece === null && selectedPiecePosition !== null) || (selectedPiece?.includes('black'))) {
+      if (isLegalMove(row, col, legalMoves)) {
+        const updatedBoard = makeUserMove(board, selectedPiecePosition, row, col)
+        clearHighlightedSquares()
+        clearHighlightedMove()
+        highlightLastMove(selectedPiecePosition, row, col)
+        setBoard(updatedBoard)
+        handleAIMove()
+      }
     }
   }
 
@@ -67,7 +66,7 @@ const QuickChess: React.FC = () => {
   const highlightLastMove = (selectedPiecePosition: { row: number; col: number }, row: number, col: number) => {
     const newSquare = document.querySelector(`.square[data-row="${row}"][data-col="${col}"]`);
     const oldSquare = document.querySelector(`.square[data-row="${selectedPiecePosition.row}"][data-col="${selectedPiecePosition.col}"]`);
-  
+
     if (oldSquare && newSquare) {
       oldSquare.classList.add(`${highlightMove}`);
       newSquare.classList.add(`${highlightMove}`);
@@ -83,7 +82,7 @@ const QuickChess: React.FC = () => {
 
   const highlightSquare = (row: number, col: number) => {
     const square = document.querySelector(`.square[data-row="${row}"][data-col="${col}"]`);
-  
+
     if (square) {
       square.classList.add(`${highlightSelect}`);
     }

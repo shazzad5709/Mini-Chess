@@ -51,22 +51,38 @@ function generatePawnMoves(board: Board, row: number, col: number) {
   const moves: [number, number][] = []
   const piece = board[row][col]
 
-  const directions: [number, number][] = piece === 'pawn-white' ? [[-1, 0]] : [[1, 0]]
+  const direction = piece?.includes('white') ? -1 : 1
 
-  for (const [rowDelta, colDelta] of directions) {
-    const newRow = row + rowDelta
-    const newCol = col + colDelta
+  const targetRow = row + direction
 
-    if (isWithinBounds(newRow, newCol)) {
-      const targetPiece = board[newRow][newCol]
+  if(isWithinBounds(targetRow, col) && board[targetRow][col] === null) {
+    moves.push([targetRow, col])
+  }
 
-      if (!targetPiece) {
-        moves.push([newRow, newCol])
-      }
-    }
+  const leftCaptureRow = row + direction
+  const leftCaptureCol = col - 1
+  const rightCaptureRow = row + direction
+  const rightCaptureCol = col + 1
+
+  if(isWithinBounds(leftCaptureRow, leftCaptureCol) && isOpponentPiece(piece, board[leftCaptureRow][leftCaptureCol])) {
+    moves.push([leftCaptureRow, leftCaptureCol])
+  }
+
+  if(isWithinBounds(rightCaptureRow, rightCaptureCol) && isOpponentPiece(piece, board[rightCaptureRow][rightCaptureCol])) {
+    moves.push([rightCaptureRow, rightCaptureCol])
   }
 
   return moves
+
+  // implement pawn promotion5
+}
+
+function isOpponentPiece(piece: Piece, targetPiece: Piece) {
+  if(!piece || !targetPiece) {
+    return false
+  }
+
+  return getPiece(piece).color !== getPiece(targetPiece).color
 }
 
 // Function to generate legal moves for a knight
