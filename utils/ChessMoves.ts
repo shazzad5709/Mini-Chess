@@ -55,7 +55,7 @@ function generatePawnMoves(board: Board, row: number, col: number) {
 
   const targetRow = row + direction
 
-  if(isWithinBounds(targetRow, col) && board[targetRow][col] === null) {
+  if (isWithinBounds(targetRow, col) && board[targetRow][col] === null) {
     moves.push([targetRow, col])
   }
 
@@ -64,11 +64,11 @@ function generatePawnMoves(board: Board, row: number, col: number) {
   const rightCaptureRow = row + direction
   const rightCaptureCol = col + 1
 
-  if(isWithinBounds(leftCaptureRow, leftCaptureCol) && isOpponentPiece(piece, board[leftCaptureRow][leftCaptureCol])) {
+  if (isWithinBounds(leftCaptureRow, leftCaptureCol) && isOpponentPiece(piece, board[leftCaptureRow][leftCaptureCol])) {
     moves.push([leftCaptureRow, leftCaptureCol])
   }
 
-  if(isWithinBounds(rightCaptureRow, rightCaptureCol) && isOpponentPiece(piece, board[rightCaptureRow][rightCaptureCol])) {
+  if (isWithinBounds(rightCaptureRow, rightCaptureCol) && isOpponentPiece(piece, board[rightCaptureRow][rightCaptureCol])) {
     moves.push([rightCaptureRow, rightCaptureCol])
   }
 
@@ -78,7 +78,7 @@ function generatePawnMoves(board: Board, row: number, col: number) {
 }
 
 function isOpponentPiece(piece: Piece, targetPiece: Piece) {
-  if(!piece || !targetPiece) {
+  if (!piece || !targetPiece) {
     return false
   }
 
@@ -132,8 +132,17 @@ function generateBishopMoves(board: Board, row: number, col: number) {
     while (isWithinBounds(newRow, newCol)) {
       const targetPiece = board[newRow][newCol]
 
-      if (!targetPiece || targetPiece[0] !== piece[0]) {
-        moves.push([newRow, newCol])
+      if (isWithinBounds(newRow, newCol)) {
+        const targetPiece = board[newRow][newCol]
+        let pieceColor = '', targetColor = ''
+        if (targetPiece) {
+          pieceColor = getPiece(piece!).color
+          targetColor = getPiece(targetPiece).color
+        }
+
+        if (!targetPiece || targetColor !== pieceColor) {
+          moves.push([newRow, newCol])
+        }
       }
 
       if (targetPiece) {
@@ -163,8 +172,17 @@ function generateRookMoves(board: Board, row: number, col: number) {
     while (isWithinBounds(newRow, newCol)) {
       const targetPiece = board[newRow][newCol]
 
-      if (!targetPiece || targetPiece[0] !== piece[0]) {
-        moves.push([newRow, newCol])
+      if (isWithinBounds(newRow, newCol)) {
+        const targetPiece = board[newRow][newCol]
+        let pieceColor = '', targetColor = ''
+        if (targetPiece) {
+          pieceColor = getPiece(piece!).color
+          targetColor = getPiece(targetPiece).color
+        }
+
+        if (!targetPiece || targetColor !== pieceColor) {
+          moves.push([newRow, newCol])
+        }
       }
 
       if (targetPiece) {
@@ -195,8 +213,17 @@ function generateQueenMoves(board: Board, row: number, col: number) {
     while (isWithinBounds(newRow, newCol)) {
       const targetPiece = board[newRow][newCol]
 
-      if (!targetPiece || targetPiece[0] !== piece[0]) {
-        moves.push([newRow, newCol])
+      if (isWithinBounds(newRow, newCol)) {
+        const targetPiece = board[newRow][newCol]
+        let pieceColor = '', targetColor = ''
+        if (targetPiece) {
+          pieceColor = getPiece(piece!).color
+          targetColor = getPiece(targetPiece).color
+        }
+
+        if (!targetPiece || targetColor !== pieceColor) {
+          moves.push([newRow, newCol])
+        }
       }
 
       if (targetPiece) {
@@ -228,8 +255,17 @@ function generateKingMoves(board: Board, row: number, col: number) {
     if (isWithinBounds(newRow, newCol)) {
       const targetPiece = board[newRow][newCol]
 
-      if (!targetPiece || targetPiece[0] !== piece[0]) {
-        moves.push([newRow, newCol])
+      if (isWithinBounds(newRow, newCol)) {
+        const targetPiece = board[newRow][newCol]
+        let pieceColor = '', targetColor = ''
+        if (targetPiece) {
+          pieceColor = getPiece(piece!).color
+          targetColor = getPiece(targetPiece).color
+        }
+
+        if (!targetPiece || targetColor !== pieceColor) {
+          moves.push([newRow, newCol])
+        }
       }
     }
   }
