@@ -8,7 +8,7 @@ type Props = {
   onClick : (row: number, col: number) => void;
 }
 
-export default function ChessBoard({ piece, row, col, onClick }: Props) {
+export default function Piece({ piece, row, col, onClick }: Props) {
   // use unicode characters to render the pieces
   const getPiece = (piece: string | null) => {
     switch (piece) {
@@ -43,8 +43,8 @@ export default function ChessBoard({ piece, row, col, onClick }: Props) {
     
   return (
     // render the squares
-    <div
-      className={`h-32 w-32 text-6xl flex items-center justify-center ${
+    <div data-row={row} data-col={col}
+      className={`square h-32 w-32 text-6xl flex items-center justify-center outline outline-[#442922] ${
         (row + col) % 2 === 0 ? 'bg-[#705546]' : 'bg-[#f2dbb5]'
       }`}
       onClick={() => onClick(row, col)}

@@ -178,7 +178,7 @@ function generateKingMoves(board: Board, row: number, col: number): [number, num
 }
 
 // Function to generate all legal moves for a player
-function generateLegalMoves(board: Board, playerColor: string): [number, number][] {
+export function generateLegalMoves(board: Board, playerColor: string): [number, number][] {
   const legalMoves: [number, number][] = [];
 
   for (let row = 0; row < 6; row++) {
@@ -208,7 +208,7 @@ function generateLegalMoves(board: Board, playerColor: string): [number, number]
 }
 
 // Function to check if a move is valid based on QuickChess rules
-function isValidMove(board: Board, startRow: number, startCol: number, endRow: number, endCol: number): boolean {
+export function isValidMove(board: Board, startRow: number, startCol: number, endRow: number, endCol: number): boolean {
   const piece = board[startRow][startCol];
 
   if (!piece) {
@@ -227,7 +227,7 @@ function isValidMove(board: Board, startRow: number, startCol: number, endRow: n
 }
 
 // Function to check if a king is in check
-function isKingInCheck(board: Board, kingColor: string): boolean {
+export function isKingInCheck(board: Board, kingColor: string): boolean {
   let kingRow = -1;
   let kingCol = -1;
 
@@ -261,7 +261,7 @@ function isKingInCheck(board: Board, kingColor: string): boolean {
 }
 
 // Function to check for checkmate
-function isCheckmate(board: Board, kingColor: string): boolean {
+export function isCheckmate(board: Board, kingColor: string): boolean {
   if (!isKingInCheck(board, kingColor)) {
     return false; // The king is not in check, so it's not checkmate
   }
