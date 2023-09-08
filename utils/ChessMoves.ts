@@ -277,4 +277,3 @@ function getPiece(pieceWithColor: string) {
   const [pieceName, color] = pieceWithColor.split('-')
   return { pieceName, color }
 }
-
