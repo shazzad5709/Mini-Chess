@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import Piece from './Piece'
 import { generateLegalMoves } from '@/utils/ChessMoves'
-import { isKingInCheck } from '@/utils/ChessGameplay'
+import { isCheckmate, isKingInCheck } from '@/utils/ChessGameplay'
 
 const QuickChess: React.FC = () => {
   const initialBoard: (string | null)[][] = [
@@ -46,8 +46,12 @@ const QuickChess: React.FC = () => {
         highlightLastMove(selectedPiecePosition, row, col)
         setBoard(updatedBoard)
 
-        if (isCheck('black'))
+        if (isCheck('black')) {
           highlightKingInCheck('black')
+          if (isCheckmate(board, 'black')) {
+            alert('Checkmate! You win!')
+          }
+        }
         else
           clearCheckHighlight('black')
 
