@@ -1,9 +1,10 @@
 // pages/QuickChess.tsx
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Piece from './Piece'
 import { generateLegalMoves } from '@/utils/ChessMoves'
 import { isCheckmate, isKingInCheck } from '@/utils/ChessGameplay'
 import { findBestAIMove } from '@/utils/ChessAI'
+import { Hourglass } from 'react-loader-spinner'
 
 const QuickChess: React.FC = () => {
   const initialBoard: (string | null)[][] = [
@@ -18,6 +19,7 @@ const QuickChess: React.FC = () => {
   const [board, setBoard] = useState(initialBoard)
   const [selectedPiecePosition, setSelectedPiecePosition] = useState({ row: 0, col: 0 })
   const [legalMoves, setLegalMoves] = useState<number[][]>([])
+  const [isLoading, setIsLoading] = useState(false)
 
   const highlightSelect = 'bg-orange-400'
   const highlightMove = 'bg-green-400'
@@ -60,7 +62,10 @@ const QuickChess: React.FC = () => {
         else
           clearCheckHighlight('black')
 
-        handleAIMove()
+        setIsLoading(true)
+        setTimeout(() => {
+          handleAIMove();
+        }, 0);
       }
     }
   }
@@ -167,8 +172,10 @@ const QuickChess: React.FC = () => {
   }
 
   const handleAIMove = () => {
+    setIsLoading(true)
     const move = findBestAIMove(board, true)
-    if(!move) {
+    if (!move) {
+      setIsLoading(false)
       return
     }
 
@@ -176,6 +183,9 @@ const QuickChess: React.FC = () => {
 
     const updatedBoard = makeAIMove(board, fromRow, fromCol, toRow, toCol)
     setBoard(updatedBoard)
+    clearHighlightedMove()
+    highlightLastMove({ row: fromRow, col: fromCol }, toRow, toCol)
+    setIsLoading(false)
   }
 
   const makeAIMove = (board: (string | null)[][], oldRow: number, oldCol: number, newRow: number, newCol: number) => {
@@ -188,9 +198,9 @@ const QuickChess: React.FC = () => {
 
   return (
     <div className='h-screen flex items-center justify-center'>
-      <div className='bg-[#442922] p-8'>
+      <div className='bg-[#442922] p-8 relative'>
         {board.map((row, rowIndex) => (
-          <div className='flex' key={rowIndex}>
+          <div className={`flex ${isLoading ? 'opacity-70' : ''} `} key={rowIndex}>
             {row.map((piece, colIndex) => (
               <Piece
                 piece={piece}
@@ -201,6 +211,19 @@ const QuickChess: React.FC = () => {
             ))}
           </div>
         ))}
+        {isLoading && (
+          <div className='absolute inset-0 flex justify-center items-center'>
+          <Hourglass
+            visible={true}
+            height="80"
+            width="80"
+            ariaLabel="hourglass-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+            colors={['#306cce', '#72a1ed']}
+          />
+        </div>
+        )}
       </div>
     </div>
   )

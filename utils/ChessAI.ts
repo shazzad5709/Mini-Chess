@@ -17,7 +17,7 @@ export function findBestAIMove(board: Board, maximizingPlayer: boolean) {
 
   for (const move of legalMoves) {
     const newBoard = makeMove(board, move)
-    const value = minimax(newBoard, 3, !maximizingPlayer, -Infinity, Infinity)
+    const value = minimax(newBoard, 5, !maximizingPlayer, -Infinity, Infinity)
 
     if ((maximizingPlayer && value > bestValue) || (!maximizingPlayer && value < bestValue)) {
       bestValue = value

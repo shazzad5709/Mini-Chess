@@ -44,7 +44,7 @@ export default function Piece({ piece, row, col, onClick }: Props) {
   return (
     // render the squares
     <div data-row={row} data-col={col}
-      className={`square h-32 w-32 text-6xl flex items-center justify-center outline outline-[#442922] ${
+      className={`square h-28 w-32 text-6xl flex items-center justify-center outline outline-[#442922] ${
         (row + col) % 2 === 0 ? 'bg-[#705546]' : 'bg-[#f2dbb5]'
       }`}
       onClick={() => onClick(row, col)}
