@@ -5,15 +5,33 @@ import Button from '../components/Button';
 import Modal from '../components/Modal';
 import { useRouter } from 'next/router';
 
-
-const HomePage = () => {
+function HomePage() {
   const backgroundImageUrl = '/path/to/your/background-image.jpg';
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isRulesModalOpen, setIsRulesModalOpen] = useState(false);
+  const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
+  const [theme, setTheme] = useState('light'); // Default theme is light
+  const [soundOn, setSoundOn] = useState(true); // Default sound is on
+  const router = useRouter(); // Initialize the router
+
+  useEffect(() => {
+    const audio = new Audio('/sound.mp3'); // Create Audio object here
+
+    if (soundOn) {
+      audio.play(); // Play the audio if soundOn is true
+    } else {
+      audio.pause(); // Pause the audio if soundOn is false
+      audio.currentTime = 0; // Reset audio to the beginning
+    }
+
+    return () => {
+      // Clean up the audio when the component unmounts
+      audio.pause();
+      audio.currentTime = 0;
+    };
+  }, [soundOn]);
 
   const handlePlayClick = () => {
-    
-    router.push('/play');
-
+    router.push('/play'); // Use the router to navigate
   };
 
   const handleRulesClick = () => {
@@ -29,7 +47,7 @@ const HomePage = () => {
   };
 
   const handleSoundToggle = () => {
-    setSoundOn(!soundOn);
+    setSoundOn(!soundOn); // Toggle soundOn state
   };
 
   return (
@@ -91,6 +109,6 @@ const HomePage = () => {
       </Modal>
     </>
   );
-};
+}
 
 export default HomePage;

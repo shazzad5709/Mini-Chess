@@ -6,6 +6,8 @@ import { isCheckmate, isKingInCheck, validateMoves } from '@/utils/ChessGameplay
 import { findBestAIMove } from '@/utils/ChessAI'
 import { Hourglass } from 'react-loader-spinner'
 import toast from 'react-hot-toast'
+ // Replace with the actual path to your sound file
+
 
 const QuickChess: React.FC = () => {
   const initialBoard: (string | null)[][] = [
@@ -16,6 +18,16 @@ const QuickChess: React.FC = () => {
     ['pawn-white', 'pawn-white', 'pawn-white', 'pawn-white', 'pawn-white'],
     ['rook-white', 'bishop-white', 'queen-white', 'king-white', 'knight-white'],
   ]
+
+  const moveAudio = new Audio('/moveSound.wav');
+  moveAudio.preload = 'auto';
+
+  const userCaptureAudio = new Audio('/userCapture.wav');
+  userCaptureAudio.preload = 'auto';
+
+  const aiCaptureAudio = new Audio('/aiCapture.wav');
+  aiCaptureAudio.preload = 'auto';
+
 
   const [board, setBoard] = useState(initialBoard)
   const [selectedPiecePosition, setSelectedPiecePosition] = useState({ row: 0, col: 0 })
@@ -99,6 +111,12 @@ const QuickChess: React.FC = () => {
     const selectedPiece = updatedBoard[selectedRow][selectedCol]
     updatedBoard[selectedRow][selectedCol] = null
     updatedBoard[row][col] = selectedPiece
+
+    if (selectedPiece !== null && selectedPiece !== updatedBoard[row][col]) {
+      userCaptureAudio.play();
+    }
+
+    moveAudio.play();
     return updatedBoard
   }
 
@@ -226,6 +244,12 @@ const QuickChess: React.FC = () => {
     const selectedPiece = updatedBoard[oldRow][oldCol]
     updatedBoard[oldRow][oldCol] = null
     updatedBoard[newRow][newCol] = selectedPiece
+
+    if (selectedPiece !== null && selectedPiece !== updatedBoard[newRow][newCol]) {
+      aiCaptureAudio.play();
+    }
+
+    moveAudio.play();
     return updatedBoard
   }
 
