@@ -1,4 +1,4 @@
-import { getPiece } from "./ChessGameplay"
+import { getPiece, isKingInCheck } from "./ChessGameplay"
 
 
 type Piece = string | null
@@ -13,6 +13,7 @@ export function generateLegalMoves(selectedPiece: string | null, board: Board, r
 
   if (piece) {
     const pieceMoves = generatePieceMoves(selectedPiece, board, row, col)
+
     legalMoves.push(...pieceMoves)
   }
 

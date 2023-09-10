@@ -78,6 +78,7 @@ export function isCheckmate(board: Board, kingColor: string): boolean {
 
   return true // No legal moves to get out of check; it's checkmate
 }
+
 // Function to generate all legal moves for a player
 export function generateAllLegalMoves(board: Board, playerColor: string): [number, number][] {
   const legalMoves: [number, number][] = []

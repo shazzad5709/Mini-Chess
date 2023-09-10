@@ -86,8 +86,7 @@ const evaluateBoard = (board: (string | null)[][], maximizingPlayer: boolean): n
 
         const pieceValue = pieceValues[piece.split('-')[0].toLowerCase()] || 0;
 
-        // const positionScore = getPositionScore(row, col, isPieceBlack);
-        const positionScore = 0;
+        const positionScore = getPositionScore(row, col, !isPieceBlack);
 
         evaluationScore += isPieceBlack === maximizingPlayer ? pieceValue + positionScore : -pieceValue - positionScore;
       }

@@ -55,7 +55,8 @@ const QuickChess: React.FC = () => {
         if (isKingInCheck(board, 'black')) {
           highlightKingInCheck('black')
 
-          if (isCheckmate(board, 'black')) {
+          if (isCheckmate(board, 'black') || isCheckmate(board, 'white')) {
+            console.log('Checkmate!')
             alert('Checkmate! You win!')
           }
         }
@@ -184,6 +185,7 @@ const QuickChess: React.FC = () => {
     const updatedBoard = makeAIMove(board, fromRow, fromCol, toRow, toCol)
     setBoard(updatedBoard)
     clearHighlightedMove()
+    clearCheckHighlight('black')
     highlightLastMove({ row: fromRow, col: fromCol }, toRow, toCol)
     setIsLoading(false)
   }
@@ -211,7 +213,7 @@ const QuickChess: React.FC = () => {
             ))}
           </div>
         ))}
-        {isLoading && (
+        {/* {isLoading && (
           <div className='absolute inset-0 flex justify-center items-center'>
           <Hourglass
             visible={true}
@@ -223,7 +225,7 @@ const QuickChess: React.FC = () => {
             colors={['#306cce', '#72a1ed']}
           />
         </div>
-        )}
+        )} */}
       </div>
     </div>
   )
