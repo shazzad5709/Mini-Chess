@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import Piece from './Piece'
 import { generateLegalMoves } from '@/utils/ChessMoves'
-import { isCheckmate, isKingInCheck, validateMoves } from '@/utils/ChessGameplay'
+import { isCheckmate, isKingInCheck, isStalemate, validateMoves } from '@/utils/ChessGameplay'
 import { findBestAIMove } from '@/utils/ChessAI'
 import { Hourglass } from 'react-loader-spinner'
 import toast from 'react-hot-toast'
@@ -72,34 +72,34 @@ const QuickChess: React.FC = () => {
         highlightLastMove(selectedPiecePosition, row, col)
         setBoard(updatedBoard)
 
-        if (isKingInCheck(board, 'black')) {
-          highlightKingInCheck('black')
-          toast.error('Check!')
+        // check if black king if checkmate
+        if (isCheckmate(board, 'black')) {
+          alert('Checkmate! You WIN!')
+          resetBoard()
+          return
         }
 
-
+        if (isKingInCheck(board, 'black')) {
+          
+          highlightKingInCheck('black')
+        }
         else
           clearCheckHighlight('black')
-
-        if (isCheckmate(board, 'black') || isCheckmate(board, 'white')) {
-          // console.log('Checkmate!')
-          // alert('Checkmate! You win!')
-          toast.success('Checkmate! You win!')
-        }
-
-
 
         setIsLoading(true)
         setIsBlackTurn(true)
         setLegalMoves([])
       }
     }
+
     // setUserMoveHistory((prevHistory) => {
     //   const newHistory = prevHistory.slice(0, userMoveIndex + 1);
     //   newHistory.push([...board]); // Add the current board state to userMoveHistory
     //   setUserMoveIndex(userMoveIndex + 1); // Increment userMoveIndex
     //   return newHistory;
     // });
+
+
 
     // Check for checkmate and handle AI move
     if (!isCheckmate(board, 'black') && isBlackTurn) {
@@ -228,10 +228,9 @@ const QuickChess: React.FC = () => {
   const handleAIMove = () => {
     setIsLoading(true)
     const move = findBestAIMove(board, true)
+
     if (!move) {
       setIsLoading(false)
-      // alert('Checkmate! You Win!')
-      toast.success('Checkmate! You win!')
       return
     }
 
@@ -244,20 +243,29 @@ const QuickChess: React.FC = () => {
     highlightLastMove({ row: fromRow, col: fromCol }, toRow, toCol)
     if (isKingInCheck(board, 'white')) {
       highlightKingInCheck('white')
-      toast.error('Check!')
-      // alert('Check!')
+      // toast.error('Check!')
     }
 
     else
       clearCheckHighlight('white')
 
     if (isCheckmate(board, 'white')) {
-      // console.log('Checkmate!')
-      toast.success('Checkmate! You win!')
-      // alert('Checkmate! You win!')
+      alert('Checkmate! You LOSE!')
+      resetBoard()
     }
+
     setIsLoading(false)
     setIsBlackTurn(false)
+  }
+
+  const resetBoard = () => {
+    setBoard(initialBoard)
+    setIsLoading(false)
+    setIsBlackTurn(false)
+    clearHighlightedSquares()
+    clearHighlightedMove()
+    clearCheckHighlight('white')
+    clearCheckHighlight('black')
   }
 
   const makeAIMove = (board: (string | null)[][], oldRow: number, oldCol: number, newRow: number, newCol: number) => {

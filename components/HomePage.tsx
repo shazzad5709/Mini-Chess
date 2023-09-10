@@ -55,7 +55,7 @@ function HomePage() {
       <Head>
         <title>Homepage</title>
       </Head>
-      <BackgroundImage imageUrl={backgroundImageUrl} />
+      {/* <BackgroundImage imageUrl={backgroundImageUrl} /> */}
       <div className="container mx-auto flex flex-col justify-center items-center h-screen">
         <div className="space-y-4 text-center">
           <Button

@@ -31,7 +31,7 @@ export function isKingInCheck(board: Board, kingColor: string): boolean {
   }
 
   if (kingRow === -1 || kingCol === -1) {
-    return false // King not found
+    return true // King not found
   }
 
   // Check for threats to the king
@@ -77,6 +77,20 @@ export function isCheckmate(board: Board, kingColor: string): boolean {
   }
 
   return true // No legal moves to get out of check; it's checkmate
+}
+
+// Function to check for checkmate
+export function isStalemate(board: Board, playerColor: string): boolean {
+  if (isKingInCheck(board, playerColor)) {
+    return false // The king is not in check, so it's not checkmate
+  }
+
+  // Try all possible moves to see if any move can get the king out of check
+  // Check if the player has any legal moves left
+  const legalMoves = generateAllLegalMoves(board, playerColor);
+
+  // If there are no legal moves, it's a stalemate
+  return legalMoves.length === 0;
 }
 
 // Function to generate all legal moves for a player

@@ -288,3 +288,4 @@ export function isCheckmate(board: Board, kingColor: string): boolean {
 
   return true; // No legal moves to get out of check; it's checkmate
 }
+
