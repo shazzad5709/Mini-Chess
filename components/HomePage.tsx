@@ -3,13 +3,17 @@ import Head from 'next/head';
 import BackgroundImage from '../components/BackgroundImage';
 import Button from '../components/Button';
 import Modal from '../components/Modal';
+import { useRouter } from 'next/router';
+
 
 const HomePage = () => {
   const backgroundImageUrl = '/path/to/your/background-image.jpg';
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const router = useRouter();
   const handlePlayClick = () => {
-    // Add your logic for the Play button here
+    
+    router.push('/play');
+
   };
 
   const handleSettingsClick = () => {
