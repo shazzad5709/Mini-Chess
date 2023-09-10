@@ -4,7 +4,7 @@ import Piece from './Piece'
 import { generateLegalMoves } from '@/utils/ChessMoves'
 import { isCheckmate, isKingInCheck } from '@/utils/ChessGameplay'
 import { findBestAIMove } from '@/utils/ChessAI'
-// import { Hourglass } from 'react-loader-spinner'
+import { Hourglass } from 'react-loader-spinner'
 
 const QuickChess: React.FC = () => {
   const initialBoard: (string | null)[][] = [
@@ -213,19 +213,20 @@ const QuickChess: React.FC = () => {
             ))}
           </div>
         ))}
-        {/* {isLoading && (
+        {isLoading && (
           <div className='absolute inset-0 flex justify-center items-center'>
-          <Hourglass
-            visible={true}
-            height="80"
-            width="80"
-            ariaLabel="hourglass-loading"
-            wrapperStyle={{}}
-            wrapperClass=""
-            colors={['#306cce', '#72a1ed']}
-          />
+            <Hourglass
+              visible={true}
+              height="80"
+              width="80"
+              ariaLabel="hourglass-loading"
+              wrapperStyle={{}}
+              wrapperClass=""
+              colors={['#6E260E', '#DAA06D']}
+            />
+          
         </div>
-        )} */}
+        )}
       </div>
     </div>
   )
