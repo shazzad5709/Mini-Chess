@@ -110,7 +110,7 @@ const evaluateBoard = (board: (string | null)[][], maximizingPlayer: boolean): n
   return evaluationScore
 };
 
-export function getMobility(board: Board, playerColor: string): number {
+ function getMobility(board: Board, playerColor: string): number {
   let mobilityScore = 0;
 
   for (let row = 0; row < 6; row++) {
@@ -138,10 +138,6 @@ function calculatePieceMobility(piece: string | null, row: number, col: number, 
   // The mobility is simply the count of legal moves.
   return legalMoves.length;
 }
-
-
-
-
 
 
 // king safety evaluation
@@ -182,7 +178,7 @@ const getKingSafetyScore = (board: (string | null)[][], playerColor: string): nu
 
 const evaluatePawnShield = (board: (string | null)[][], kingRow: number, kingCol: number, playerColor: string): number => {
   // Evaluate pawn shield for king safety
-  const pawnShieldRows = playerColor === 'white' ? [kingRow - 1, kingRow - 2] : [kingRow + 1, kingRow + 2];
+  const pawnShieldRows = playerColor === 'black' ? [kingRow - 1, kingRow - 2] : [kingRow + 1, kingRow + 2];
   const pawnShieldCols = [kingCol - 1, kingCol, kingCol + 1];
 
   let pawnShieldScore = 0;
