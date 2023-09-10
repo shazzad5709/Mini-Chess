@@ -55,23 +55,19 @@ const QuickChess: React.FC = () => {
         highlightLastMove(selectedPiecePosition, row, col)
         setBoard(updatedBoard)
 
-        if (isKingInCheck(board, 'black')) {
+        if (isKingInCheck(board, 'black'))
           highlightKingInCheck('black')
-
-          if (isCheckmate(board, 'black') || isCheckmate(board, 'white')) {
-            console.log('Checkmate!')
-            alert('Checkmate! You win!')
-          }
-        }
         else
           clearCheckHighlight('black')
+
+        if (isCheckmate(board, 'black') || isCheckmate(board, 'white')) {
+          console.log('Checkmate!')
+          alert('Checkmate! You win!')
+        }
 
         setIsLoading(true)
         setIsBlackTurn(true)
         setLegalMoves([])
-        // setTimeout(() => {
-        // handleAIMove();
-        // }, 0);
       }
     }
   }
@@ -158,7 +154,7 @@ const QuickChess: React.FC = () => {
   // clear the highlighted king in check
   const clearCheckHighlight = (color: string) => {
     const { row, col } = findKingPosition(color);
-    const square = document.querySelector(`.square[data-row="${row}"][data-col="${col}"]`);
+    const square = document.querySelector(`.${highlightCheck}`);
 
     if (square) {
       square.classList.remove(`${highlightCheck}`);
@@ -188,6 +184,7 @@ const QuickChess: React.FC = () => {
     const move = findBestAIMove(board, true)
     if (!move) {
       setIsLoading(false)
+      alert('Checkmate! You Win!')
       return
     }
 
@@ -198,6 +195,15 @@ const QuickChess: React.FC = () => {
     clearHighlightedMove()
     clearCheckHighlight('black')
     highlightLastMove({ row: fromRow, col: fromCol }, toRow, toCol)
+    if (isKingInCheck(board, 'white'))
+      highlightKingInCheck('white')
+    else
+      clearCheckHighlight('white')
+
+    if (isCheckmate(board, 'white')) {
+      console.log('Checkmate!')
+      alert('Checkmate! You win!')
+    }
     setIsLoading(false)
     setIsBlackTurn(false)
   }
