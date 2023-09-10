@@ -3,7 +3,10 @@ import QuickChess from '@/components/QuickChess'
 export default function Play() {
   return (
     <>
-      <QuickChess />
+    <head>
+      Mini Chess
+    </head>
+      <QuickChess/>
     </>
   )
 }

@@ -6,7 +6,7 @@ import { isCheckmate, isKingInCheck, isStalemate, validateMoves } from '@/utils/
 import { findBestAIMove } from '@/utils/ChessAI'
 import { Hourglass } from 'react-loader-spinner'
 import toast from 'react-hot-toast'
-// Replace with the actual path to your sound file
+ // Replace with the actual path to your sound file
 
 
 const QuickChess: React.FC = () => {
@@ -34,9 +34,6 @@ const QuickChess: React.FC = () => {
   const [legalMoves, setLegalMoves] = useState<number[][]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [isBlackTurn, setIsBlackTurn] = useState(false)
-  const [userMoveIndex, setUserMoveIndex] = useState(-1); // Add userMoveIndex state variable
-  const [userMoveHistory, setUserMoveHistory] = useState<(string | null)[][][]>([]); // Add setUserMoveHistory
-
 
   const highlightSelect = 'bg-orange-400'
   const highlightMove = 'bg-green-400'
@@ -109,9 +106,9 @@ const QuickChess: React.FC = () => {
 
   useEffect(() => {
     if (isBlackTurn) {
-      handleAIMove();
+      handleAIMove()
     }
-  }, [isBlackTurn]);
+  }, [isBlackTurn])
 
   // check if the user's move is legal
   const isLegalMove = (row: number, col: number, legalMoves: number[][]) => {
@@ -305,8 +302,11 @@ const QuickChess: React.FC = () => {
 
 
   return (
+    <>
+    <head>
+      Mini Chess
+    </head>
     <div className='h-screen flex items-center justify-center'>
-      {/* <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={handleUndoClick}>Undo</button> */}
       <div className='bg-[#442922] p-8 relative'>
         {board.map((row, rowIndex) => (
           <div className={`flex ${isLoading ? 'opacity-70' : ''} `} key={rowIndex}>
@@ -336,6 +336,8 @@ const QuickChess: React.FC = () => {
         )}
       </div>
     </div>
+    </>
+    
   )
 }
 
