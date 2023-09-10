@@ -3,26 +3,17 @@ import Head from 'next/head';
 import BackgroundImage from '../components/BackgroundImage';
 import Button from '../components/Button';
 import Modal from '../components/Modal';
+import { useRouter } from 'next/router';
+
 
 const HomePage = () => {
   const backgroundImageUrl = '/path/to/your/background-image.jpg';
-  const [isRulesModalOpen, setIsRulesModalOpen] = useState(false);
-  const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
-  const [theme, setTheme] = useState('light'); // Default theme is light
-  const [soundOn, setSoundOn] = useState(true); // Default sound is on
-  const [audio] = useState(new Audio('/sound.mp3')); // Replace with your sound file path
-
-  useEffect(() => {
-    if (soundOn) {
-      audio.play();
-    } else {
-      audio.pause();
-      audio.currentTime = 0; // Reset audio to the beginning
-    }
-  }, [soundOn]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handlePlayClick = () => {
-    // Add your logic for the Play button here
+    
+    router.push('/play');
+
   };
 
   const handleRulesClick = () => {
