@@ -22,6 +22,9 @@ const QuickChess: React.FC = () => {
   const [legalMoves, setLegalMoves] = useState<number[][]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [isBlackTurn, setIsBlackTurn] = useState(false)
+  const [userMoveIndex, setUserMoveIndex] = useState(-1); // Add userMoveIndex state variable
+  const [userMoveHistory, setUserMoveHistory] = useState<(string | null)[][][]>([]); // Add setUserMoveHistory
+
 
   const highlightSelect = 'bg-orange-400'
   const highlightMove = 'bg-green-400'
@@ -30,7 +33,7 @@ const QuickChess: React.FC = () => {
   // handle user's mouse-click on a square
   const handleSquareClick = (row: number, col: number) => {
     const selectedPiece = board[row][col]
-
+    
     // selection of a new piece
     if (selectedPiece?.includes('white')) {
       setSelectedPiecePosition({ row, col })
@@ -43,6 +46,7 @@ const QuickChess: React.FC = () => {
       legalMoves = validateMoves(board, legalMoves, row, col)
       setLegalMoves(legalMoves)
       highlightLegalMoves(legalMoves)
+      
     }
 
     // making a move (either to blank square or to capture opponent's piece)
@@ -71,18 +75,31 @@ const QuickChess: React.FC = () => {
           toast.success('Checkmate! You win!')
         }
 
+        
+
         setIsLoading(true)
         setIsBlackTurn(true)
         setLegalMoves([])
       }
     }
-  }
+    // setUserMoveHistory((prevHistory) => {
+    //   const newHistory = prevHistory.slice(0, userMoveIndex + 1);
+    //   newHistory.push([...board]); // Add the current board state to userMoveHistory
+    //   setUserMoveIndex(userMoveIndex + 1); // Increment userMoveIndex
+    //   return newHistory;
+    // });
+    
+    // Check for checkmate and handle AI move
+    if (!isCheckmate(board, 'black') && isBlackTurn) {
+      handleAIMove();
+    }
+  };
 
   useEffect(() => {
     if (isBlackTurn) {
-      handleAIMove()
+      handleAIMove();
     }
-  }, [isBlackTurn])
+  }, [isBlackTurn]);
 
   // check if the user's move is legal
   const isLegalMove = (row: number, col: number, legalMoves: number[][]) => {
@@ -229,8 +246,26 @@ const QuickChess: React.FC = () => {
     return updatedBoard
   }
 
+  const handleUndoClick = () => {
+    if (userMoveIndex > 0) { // Check if there are previous user moves
+      const previousUserMove = userMoveHistory[userMoveIndex - 1];
+      if (previousUserMove) {
+        // Restore the board to the previous user move
+        setBoard(previousUserMove);
+        setUserMoveIndex(userMoveIndex - 1); // Decrement userMoveIndex
+        // Clear the move history and legal moves
+        setLegalMoves([]);
+        clearHighlightedMove();
+        // Toggle turn to the user
+        setIsBlackTurn(false);
+      }
+    }
+  };
+  
+
   return (
     <div className='h-screen flex items-center justify-center'>
+      {/* <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={handleUndoClick}>Undo</button> */}
       <div className='bg-[#442922] p-8 relative'>
         {board.map((row, rowIndex) => (
           <div className={`flex ${isLoading ? 'opacity-70' : ''} `} key={rowIndex}>
