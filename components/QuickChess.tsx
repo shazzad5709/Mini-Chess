@@ -4,7 +4,7 @@ import Piece from './Piece'
 import { generateLegalMoves } from '@/utils/ChessMoves'
 import { isCheckmate, isKingInCheck } from '@/utils/ChessGameplay'
 import { findBestAIMove } from '@/utils/ChessAI'
-import { Hourglass } from 'react-loader-spinner'
+// import { Hourglass } from 'react-loader-spinner'
 
 const QuickChess: React.FC = () => {
   const initialBoard: (string | null)[][] = [

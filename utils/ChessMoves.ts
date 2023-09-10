@@ -21,7 +21,7 @@ export function generateLegalMoves(selectedPiece: string | null, board: Board, r
 }
 
 // Function to generate legal moves for a piece
-function generatePieceMoves(selectedPiece: string | null, board: Board, row: number, col: number) {
+export function generatePieceMoves(selectedPiece: string | null, board: Board, row: number, col: number) {
   const piece = board[row][col]
 
   const { pieceName, color } = getPiece(piece!)
