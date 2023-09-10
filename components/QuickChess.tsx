@@ -5,6 +5,7 @@ import { generateLegalMoves } from '@/utils/ChessMoves'
 import { isCheckmate, isKingInCheck, validateMoves } from '@/utils/ChessGameplay'
 import { findBestAIMove } from '@/utils/ChessAI'
 import { Hourglass } from 'react-loader-spinner'
+import toast from 'react-hot-toast'
 
 const QuickChess: React.FC = () => {
   const initialBoard: (string | null)[][] = [
@@ -55,14 +56,19 @@ const QuickChess: React.FC = () => {
         highlightLastMove(selectedPiecePosition, row, col)
         setBoard(updatedBoard)
 
-        if (isKingInCheck(board, 'black'))
+        if (isKingInCheck(board, 'black')){
           highlightKingInCheck('black')
+          toast.error('Check!')
+        }
+        
+          
         else
           clearCheckHighlight('black')
 
         if (isCheckmate(board, 'black') || isCheckmate(board, 'white')) {
-          console.log('Checkmate!')
-          alert('Checkmate! You win!')
+          // console.log('Checkmate!')
+          // alert('Checkmate! You win!')
+          toast.success('Checkmate! You win!')
         }
 
         setIsLoading(true)
@@ -148,6 +154,7 @@ const QuickChess: React.FC = () => {
 
     if (square) {
       square.classList.add(`${highlightCheck}`);
+      // toast.error('Check!')
     }
   }
 
@@ -184,7 +191,8 @@ const QuickChess: React.FC = () => {
     const move = findBestAIMove(board, true)
     if (!move) {
       setIsLoading(false)
-      alert('Checkmate! You Win!')
+      // alert('Checkmate! You Win!')
+      toast.success('Checkmate! You win!')
       return
     }
 
@@ -195,14 +203,19 @@ const QuickChess: React.FC = () => {
     clearHighlightedMove()
     clearCheckHighlight('black')
     highlightLastMove({ row: fromRow, col: fromCol }, toRow, toCol)
-    if (isKingInCheck(board, 'white'))
+    if (isKingInCheck(board, 'white')){
       highlightKingInCheck('white')
+      toast.error('Check!')
+      // alert('Check!')
+    }
+      
     else
       clearCheckHighlight('white')
 
     if (isCheckmate(board, 'white')) {
-      console.log('Checkmate!')
-      alert('Checkmate! You win!')
+      // console.log('Checkmate!')
+      toast.success('Checkmate! You win!')
+      // alert('Checkmate! You win!')
     }
     setIsLoading(false)
     setIsBlackTurn(false)
