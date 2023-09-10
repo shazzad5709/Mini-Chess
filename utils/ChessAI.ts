@@ -94,7 +94,7 @@ const evaluateBoard = (board: (string | null)[][], maximizingPlayer: boolean): n
         const playercolor: string = isPieceBlack ? 'black' : 'white';
 
         // Call calculatePieceMobility with the correct playerColor
-        const mobilityScore = calculatePieceMobility(piece, row, col, board, playercolor);
+        const mobilityScore = getMobility(board, playercolor);
 
         evaluationScore += isPieceBlack === maximizingPlayer ? mobilityScore : -mobilityScore;
 
