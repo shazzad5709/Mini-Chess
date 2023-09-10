@@ -178,6 +178,7 @@ const getKingSafetyScore = (board: (string | null)[][], playerColor: string): nu
 
 const evaluatePawnShield = (board: (string | null)[][], kingRow: number, kingCol: number, playerColor: string): number => {
   // Evaluate pawn shield for king safety
+  //color code alright? is it going to be white?
   const pawnShieldRows = playerColor === 'black' ? [kingRow - 1, kingRow - 2] : [kingRow + 1, kingRow + 2];
   const pawnShieldCols = [kingCol - 1, kingCol, kingCol + 1];
 
