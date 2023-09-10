@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import Piece from './Piece'
 import { generateLegalMoves } from '@/utils/ChessMoves'
-import { isCheckmate, isKingInCheck } from '@/utils/ChessGameplay'
+import { isCheckmate, isKingInCheck, validateMoves } from '@/utils/ChessGameplay'
 import { findBestAIMove } from '@/utils/ChessAI'
 import { Hourglass } from 'react-loader-spinner'
 
@@ -20,6 +20,7 @@ const QuickChess: React.FC = () => {
   const [selectedPiecePosition, setSelectedPiecePosition] = useState({ row: 0, col: 0 })
   const [legalMoves, setLegalMoves] = useState<number[][]>([])
   const [isLoading, setIsLoading] = useState(false)
+  const [isBlackTurn, setIsBlackTurn] = useState(false)
 
   const highlightSelect = 'bg-orange-400'
   const highlightMove = 'bg-green-400'
@@ -36,7 +37,9 @@ const QuickChess: React.FC = () => {
       clearHighlightedSquares()
       highlightSquare(row, col)
 
-      const legalMoves = generateLegalMoves(selectedPiece, board, row, col)
+      let legalMoves = generateLegalMoves(selectedPiece, board, row, col)
+      // iterate over each move to check if it is valid
+      legalMoves = validateMoves(board, legalMoves, row, col)
       setLegalMoves(legalMoves)
       highlightLegalMoves(legalMoves)
     }
@@ -64,12 +67,20 @@ const QuickChess: React.FC = () => {
           clearCheckHighlight('black')
 
         setIsLoading(true)
-        setTimeout(() => {
-          handleAIMove();
-        }, 0);
+        setIsBlackTurn(true)
+        setLegalMoves([])
+        // setTimeout(() => {
+        // handleAIMove();
+        // }, 0);
       }
     }
   }
+
+  useEffect(() => {
+    if (isBlackTurn) {
+      handleAIMove()
+    }
+  }, [isBlackTurn])
 
   // check if the user's move is legal
   const isLegalMove = (row: number, col: number, legalMoves: number[][]) => {
@@ -188,6 +199,7 @@ const QuickChess: React.FC = () => {
     clearCheckHighlight('black')
     highlightLastMove({ row: fromRow, col: fromCol }, toRow, toCol)
     setIsLoading(false)
+    setIsBlackTurn(false)
   }
 
   const makeAIMove = (board: (string | null)[][], oldRow: number, oldCol: number, newRow: number, newCol: number) => {
@@ -224,8 +236,8 @@ const QuickChess: React.FC = () => {
               wrapperClass=""
               colors={['#6E260E', '#DAA06D']}
             />
-          
-        </div>
+
+          </div>
         )}
       </div>
     </div>

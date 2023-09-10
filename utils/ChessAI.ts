@@ -1,6 +1,5 @@
-import { get } from "http"
-import { getPiece, isCheckmate } from "./ChessGameplay"
-import { generateLegalMoves,generatePieceMoves } from "./ChessMoves"
+import { getPiece, isCheckmate, isKingInCheck, validateMoves } from "./ChessGameplay"
+import { generateLegalMoves, generatePieceMoves } from "./ChessMoves"
 
 type Piece = string | null
 type Board = Piece[][]
@@ -13,12 +12,13 @@ type Move = {
 
 export function findBestAIMove(board: Board, maximizingPlayer: boolean) {
   const legalMoves = generateLegalAIMoves(board, 'black')
+
   let bestMove: Move | null = null
   let bestValue = maximizingPlayer ? -Infinity : Infinity;
 
   for (const move of legalMoves) {
     const newBoard = makeMove(board, move)
-    const value = minimax(newBoard, 5, !maximizingPlayer, -Infinity, Infinity)
+    const value = minimax(newBoard, 3, !maximizingPlayer, -Infinity, Infinity)
 
     if ((maximizingPlayer && value > bestValue) || (!maximizingPlayer && value < bestValue)) {
       bestValue = value
@@ -42,14 +42,26 @@ export function generateLegalAIMoves(board: Board, playerColor: string): Move[] 
       let pieceMoves: [number, number][] = []
       if (piece && color === playerColor)
         pieceMoves = generateLegalMoves(currentPiece, board, row, col)
-      
+
       for (const [newRow, newCol] of pieceMoves) {
         legalMoves.push({ fromRow: row, fromCol: col, toRow: newRow, toCol: newCol })
       }
     }
   }
 
-  return legalMoves;
+  let validMoves: Move[] = []
+
+  for(const move of legalMoves) {
+    const tempBoard = [...board.map((row) => [...row])]
+    tempBoard[move.toRow][move.toCol] = tempBoard[move.fromRow][move.fromCol]
+    tempBoard[move.fromRow][move.fromCol] = null // Move the piece    if(!isCheckmate(newBoard, 'white')) {
+    
+    if(!isKingInCheck(tempBoard, 'black')) {
+      validMoves.push(move)
+    }
+  }
+
+  return validMoves;
 }
 
 
@@ -105,18 +117,18 @@ const evaluateBoard = (board: (string | null)[][], maximizingPlayer: boolean): n
       }
     }
   }
-  
-  
+
+
   return evaluationScore
 };
 
- function getMobility(board: Board, playerColor: string): number {
+function getMobility(board: Board, playerColor: string): number {
   let mobilityScore = 0;
 
   for (let row = 0; row < 6; row++) {
     for (let col = 0; col < 5; col++) {
       const piece = board[row][col];
-      if (piece && piece.includes(playerColor)) {
+      if (piece?.includes(playerColor)) {
         const pieceMobility = calculatePieceMobility(piece, row, col, board, playerColor);
         mobilityScore += pieceMobility;
       }
@@ -128,7 +140,7 @@ const evaluateBoard = (board: (string | null)[][], maximizingPlayer: boolean): n
 
 function calculatePieceMobility(piece: string | null, row: number, col: number, board: Board, playerColor: string): number {
   // If there's no piece or if it's not the expected color, return 0 mobility.
-  if (!piece || !piece.includes(playerColor)) {
+  if (!piece?.includes(playerColor)) {
     return 0;
   }
 
@@ -149,7 +161,7 @@ const getKingSafetyScore = (board: (string | null)[][], playerColor: string): nu
   for (let row = 0; row < 6; row++) {
     for (let col = 0; col < 5; col++) {
       const piece = board[row][col];
-      if (piece?.toLowerCase() === `king-${playerColor}`) {
+      if (piece === `king-${playerColor}`) {
         kingRow = row;
         kingCol = col;
         break;
@@ -211,7 +223,7 @@ const evaluatePieceThreats = (board: (string | null)[][], kingRow: number, kingC
   // Define the possible directions for piece threats
   const directions: [number, number][] = [
     [-1, -1], [-1, 0], [-1, 1],
-    [0, -1], /* King is not threatened from its own position */ [0, 1],
+    [0, -1], /* King is not threatened from its own position */[0, 1],
     [1, -1], [1, 0], [1, 1],
   ];
 
@@ -260,14 +272,14 @@ const minimax = (board: Board, depth: number, maximizingPlayer: boolean, alpha: 
     for (const move of legalMoves) {
       const newBoard = makeMove(board, move)
       const score = minimax(newBoard, depth - 1, false, alpha, beta)
-      
+
       maxEval = Math.max(maxEval, score)
       alpha = Math.max(alpha, score)
-      
+
       if (beta <= alpha) break
     }
     return maxEval
-  } 
+  }
   else {
     let minEval = Infinity
 

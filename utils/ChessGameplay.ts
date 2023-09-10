@@ -101,3 +101,22 @@ export function generateAllLegalMoves(board: Board, playerColor: string): [numbe
 
   return legalMoves;
 }
+
+// Function to check if a move is Valid i.e. if it handles if the king is in check or if the move is going to put the king in check
+export function validateMoves(board: Board, legalMoves: [number, number][], row: number, col: number): [number, number][] {
+  // iterate over each move in legalMoves and check if the move is valid
+  const validMoves: [number, number][] = []
+  const color = getPiece(board[row][col]!).color
+
+  for (const [newRow, newCol] of legalMoves) {
+    const tempBoard = [...board.map((row) => [...row])]
+    tempBoard[newRow][newCol] = tempBoard[row][col]
+    tempBoard[row][col] = null // Move the piece
+
+    if (!isKingInCheck(tempBoard, color)) {
+      validMoves.push([newRow, newCol])
+    }
+  }
+  
+  return validMoves
+}
