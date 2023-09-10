@@ -8,6 +8,9 @@ const inter = Inter({ subsets: ['latin'] })
 export default function Play() {
   return (
     <>
+    <head>
+      Mini Chess
+    </head>
       <QuickChess/>
     </>
   )
