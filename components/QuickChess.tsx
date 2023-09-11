@@ -19,6 +19,15 @@ const QuickChess: React.FC = () => {
     ['rook-white', 'bishop-white', 'queen-white', 'king-white', 'knight-white'],
   ]
 
+  const moveAudio = new Audio('/moveSound.wav');
+  moveAudio.preload = 'auto';
+
+  const userCaptureAudio = new Audio('/userCapture.wav');
+  userCaptureAudio.preload = 'auto';
+
+  const aiCaptureAudio = new Audio('/aiCapture.wav');
+  aiCaptureAudio.preload = 'auto';
+
 
   const [board, setBoard] = useState(initialBoard)
   const [selectedPiecePosition, setSelectedPiecePosition] = useState({ row: 0, col: 0 })
@@ -123,7 +132,11 @@ const QuickChess: React.FC = () => {
     updatedBoard[selectedRow][selectedCol] = null
     updatedBoard[row][col] = selectedPiece
 
-    
+    if (selectedPiece !== null && selectedPiece !== updatedBoard[row][col]) {
+      userCaptureAudio.play();
+    }
+
+    moveAudio.play();
     return updatedBoard
   }
 
@@ -265,15 +278,20 @@ const QuickChess: React.FC = () => {
     updatedBoard[oldRow][oldCol] = null
     updatedBoard[newRow][newCol] = selectedPiece
 
-    
+    if (selectedPiece !== null && selectedPiece !== updatedBoard[newRow][newCol]) {
+      aiCaptureAudio.play();
+    }
 
-    
+    moveAudio.play();
     return updatedBoard
   }
 
 
   return (
     <>
+    <head>
+      Mini Chess
+    </head>
     <div className='h-screen flex items-center justify-center'>
       <div className='bg-[#442922] p-8 relative'>
         {board.map((row, rowIndex) => (
