@@ -12,35 +12,39 @@ export default function Chess({ }: Props) {
   const [position, setPosition] = useState({ row: 0, col: 0 })
   const [turn, setTurn] = useState(gs.whiteToMove)
 
-  const highlightSelect = 'bg-orange-400'
+  const highlightSelect = 'bg-orange-600'
   const highlightMove = 'bg-green-600'
-  const highlightCheck = 'bg-red-400'
+  const highlightCheck = 'bg-red-600'
 
   useEffect(() => {
+    if (gs.isInCheck()) {
+      console.log(gs.blackKingPosition, gs.whiteKingPosition)
+      gs.whiteToMove ? highlightKingInCheck(gs.whiteKingPosition[0], gs.whiteKingPosition[1]) : highlightKingInCheck(gs.blackKingPosition[0], gs.blackKingPosition[1])
+    }
+
     if (gs.inCheckmate) {
       (gs.winner === 'white') ?
         alert('Checkate! YOU WIN!!!') : alert('Checkmate! YOU LOSE...')
     }
-
     else if (gs.inStalemate) {
       alert('Stalemate! ---DRAW---')
     }
-
     else if (gs.moveCount === 30) {
-      if(gs.boardScore>0) {
+      if (gs.boardScore > 0) {
         alert('30 move rule! YOU WIN!!!')
       }
-      else if (gs.boardScore<0) {
+      else if (gs.boardScore < 0) {
         alert('30 move rule! YOU LOSE...')
       }
       else {
         alert('30 move rule! ---DRAW---')
       }
     }
-
     else if (!gs.whiteToMove) {
+      setTimeout(() => {
         handleAIMove()
-      }
+      }, 0)
+    }
   }, [turn])
 
   const handleSquareClick = (row: number, col: number) => {
@@ -89,7 +93,22 @@ export default function Chess({ }: Props) {
     setTurn(gs.whiteToMove)
   }
 
+  const highlightKingInCheck = (row: number, col: number) => {
+    const square = document.querySelector(`.square[data-row="${row}"][data-col="${col}"]`);
 
+    if (square) {
+      square.classList.add(`${highlightCheck}`);
+    }
+  }
+
+  // clear the highlighted king in check
+  const clearCheckHighlight = () => {
+    const square = document.querySelector(`.${highlightCheck}`);
+
+    if (square) {
+      square.classList.remove(`${highlightCheck}`);
+    }
+  }
 
   const highlightSquare = (row: number, col: number) => {
     const square = document.querySelector(`.square[data-row="${row}"][data-col="${col}"]`);

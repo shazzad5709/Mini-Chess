@@ -5,7 +5,7 @@ const pieceScore: { [key: string]: number } = {
 }
 const checkmate = 1000
 const stalemate = 0
-const DEPTH = 5
+const DEPTH = 8
 
 let nextMove: Move
 let undoC: number = 0
@@ -27,19 +27,12 @@ export function findBestMove(gs: GameState, validMoves: Move[]) {
   shuffleArray(validMoves)
 
   const start_time = performance.now()
-  
-  // console.log(gs)
-  // console.log(validMoves)
-  // console.log(DEPTH)
-  // console.log(-checkmate)
-  // console.log(checkmate)
-  // console.log(gs.whiteToMove ? 1 : -1)
 
   findMoveNegaMaxAlphaBetaPVS(gs, validMoves, DEPTH, -checkmate, checkmate, gs.whiteToMove ? 1 : -1)
 
   const end_time = performance.now()
   console.log(`Time: ${(end_time - start_time) / 1000}s`)
-  console.log(`Move: ${moveC}`)
+  // console.log(`Move: ${moveC}`)
 
   return nextMove
 }
@@ -52,7 +45,6 @@ function findMoveNegaMaxAlphaBetaPVS(
   beta: number,
   turnMultiplier: number
 ) {
-  console.log(moveC)
   if (depth === 0) {
     return turnMultiplier * scoreBoard(gs)
   }
