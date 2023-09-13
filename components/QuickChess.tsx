@@ -1,35 +1,21 @@
 // pages/QuickChess.tsx
 import React, { useEffect, useState } from 'react'
 import Piece from './Piece'
-import { generateLegalMoves } from '@/utils/ChessMoves'
-import { isCheckmate, isKingInCheck, isStalemate, validateMoves } from '@/utils/ChessGameplay'
-import { findBestAIMove } from '@/utils/ChessAI'
-import { Hourglass } from 'react-loader-spinner'
-import toast from 'react-hot-toast'
- // Replace with the actual path to your sound file
-
+import { GameState } from '@/utils/ChessEngine'
 
 const QuickChess: React.FC = () => {
-  const initialBoard: (string | null)[][] = [
-    ['rook-black', 'bishop-black', 'queen-black', 'king-black', 'knight-black'],
-    ['pawn-black', 'pawn-black', 'pawn-black', 'pawn-black', 'pawn-black'],
-    [null, null, null, null, null],
-    [null, null, null, null, null],
-    ['pawn-white', 'pawn-white', 'pawn-white', 'pawn-white', 'pawn-white'],
-    ['rook-white', 'bishop-white', 'queen-white', 'king-white', 'knight-white'],
-  ]
+  const board = new GameState().board
 
-  const moveAudio = new Audio('/moveSound.wav');
-  moveAudio.preload = 'auto';
+  // const moveAudio = new Audio('/moveSound.wav');
+  // moveAudio.preload = 'auto';
 
-  const userCaptureAudio = new Audio('/userCapture.wav');
-  userCaptureAudio.preload = 'auto';
+  // const userCaptureAudio = new Audio('/userCapture.wav');
+  // userCaptureAudio.preload = 'auto';
 
-  const aiCaptureAudio = new Audio('/aiCapture.wav');
-  aiCaptureAudio.preload = 'auto';
+  // const aiCaptureAudio = new Audio('/aiCapture.wav');
+  // aiCaptureAudio.preload = 'auto';
 
 
-  const [board, setBoard] = useState(initialBoard)
   const [selectedPiecePosition, setSelectedPiecePosition] = useState({ row: 0, col: 0 })
   const [legalMoves, setLegalMoves] = useState<number[][]>([])
   const [isLoading, setIsLoading] = useState(false)
@@ -37,7 +23,7 @@ const QuickChess: React.FC = () => {
   const [userMoveHistory, setUserMoveHistory] = useState<(string | null)[][]>([...initialBoard]);
   const [userMoveIndex, setUserMoveIndex] = useState<number>(0);
 
-  const highlightSelect = 'bg-orange-400'
+  const highlightSelect = 'bg-yellow-600'
   const highlightMove = 'bg-green-400'
   const highlightCheck = 'bg-red-400'
 
@@ -79,7 +65,7 @@ const QuickChess: React.FC = () => {
         }
 
         if (isKingInCheck(board, 'black')) {
-          
+
           highlightKingInCheck('black')
         }
         else
@@ -107,9 +93,11 @@ const QuickChess: React.FC = () => {
   };
 
   useEffect(() => {
+    renderBoard()
     if (isBlackTurn) {
       handleAIMove()
     }
+    renderBoard()
   }, [isBlackTurn])
 
   // check if the user's move is legal
@@ -132,11 +120,11 @@ const QuickChess: React.FC = () => {
     updatedBoard[selectedRow][selectedCol] = null
     updatedBoard[row][col] = selectedPiece
 
-    if (selectedPiece !== null && selectedPiece !== updatedBoard[row][col]) {
-      userCaptureAudio.play();
-    }
+    // if (selectedPiece !== null && selectedPiece !== updatedBoard[row][col]) {
+    //   userCaptureAudio.play();
+    // }
 
-    moveAudio.play();
+    // moveAudio.play();
     return updatedBoard
   }
 
@@ -278,52 +266,58 @@ const QuickChess: React.FC = () => {
     updatedBoard[oldRow][oldCol] = null
     updatedBoard[newRow][newCol] = selectedPiece
 
-    if (selectedPiece !== null && selectedPiece !== updatedBoard[newRow][newCol]) {
-      aiCaptureAudio.play();
-    }
+    // if (selectedPiece !== null && selectedPiece !== updatedBoard[newRow][newCol]) {
+    //   aiCaptureAudio.play();
+    // }
 
-    moveAudio.play();
+    // moveAudio.play();
     return updatedBoard
+  }
+
+  const renderBoard = () => {
+    return (
+      <>
+
+        <div className='h-screen flex items-center justify-center'>
+          <div className='bg-[#442922] p-8 relative'>
+            {board.map((row, rowIndex) => (
+              <div className={`flex ${isLoading ? '' : ''} `} key={rowIndex}>
+                {row.map((piece, colIndex) => (
+                  <Piece
+                    piece={piece}
+                    row={rowIndex}
+                    col={colIndex}
+                    onClick={handleSquareClick}
+                  />
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      </>
+    )
   }
 
 
   return (
     <>
-    <head>
-      Mini Chess
-    </head>
-    <div className='h-screen flex items-center justify-center'>
-      <div className='bg-[#442922] p-8 relative'>
-        {board.map((row, rowIndex) => (
-          <div className={`flex ${isLoading ? 'opacity-70' : ''} `} key={rowIndex}>
-            {row.map((piece, colIndex) => (
-              <Piece
-                piece={piece}
-                row={rowIndex}
-                col={colIndex}
-                onClick={handleSquareClick}
-              />
-            ))}
-          </div>
-        ))}
-        {isLoading && (
-          <div className='absolute inset-0 flex justify-center items-center'>
-            <Hourglass
-              visible={true}
-              height="80"
-              width="80"
-              ariaLabel="hourglass-loading"
-              wrapperStyle={{}}
-              wrapperClass=""
-              colors={['#6E260E', '#DAA06D']}
-            />
-
-          </div>
-        )}
+      <div className='h-screen flex items-center justify-center'>
+        <div className='bg-[#442922] p-8 relative'>
+          {board.map((row, rowIndex) => (
+            <div className={`flex`} key={rowIndex}>
+              {row.map((piece, colIndex) => (
+                <Piece
+                  piece={piece}
+                  row={rowIndex}
+                  col={colIndex}
+                  onClick={handleSquareClick}
+                />
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
     </>
-    
   )
 }
 
