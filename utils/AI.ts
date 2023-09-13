@@ -3,6 +3,48 @@ import { GameState, Move } from './ChessEngine'
 const pieceScore: { [key: string]: number } = {
   'K': 0, 'Q': 9, 'R': 5, 'B': 3, 'N': 3, 'p': 1
 }
+
+const knightGoodPositions = [[1, 1, 1, 1, 1],
+                       [1, 2, 2, 2, 1],
+                       [1, 2, 3, 2, 1],
+                       [1, 2, 3, 2, 1],
+                       [1, 2, 2, 2, 1],
+                       [1, 1, 1, 1, 1]]
+
+const bishopGoodPositions = [[3, 2, 1, 2, 3],
+                       [3, 3, 2, 3, 3],
+                       [2, 3, 3, 3, 2],
+                       [2, 3, 3, 3, 2],
+                       [3, 3, 2, 3, 3],
+                       [3, 2, 1, 2, 3]]
+
+const queenGoodPositions = [[1, 2, 1, 2, 1],
+                      [1, 2, 2, 2, 1],
+                      [1, 2, 3, 2, 1],
+                      [1, 2, 3, 2, 1],
+                      [1, 2, 2, 2, 1],
+                      [1, 2, 1, 2, 1]]
+
+const rookGoodPositions = [[3, 3, 3, 3, 3],
+                     [3, 2, 2, 2, 3],
+                     [1, 2, 1, 2, 1],
+                     [1, 2, 1, 2, 1],
+                     [3, 2, 2, 2, 3],
+                     [3, 3, 3, 3, 3]]
+
+const whitePawnGoodPositions = [[5, 5, 5, 5, 5],
+                          [4, 4, 4, 4, 4],
+                          [3, 3, 3, 3, 3],
+                          [2, 2, 2, 2, 2],
+                          [1, 1, 1, 1, 1],
+                          [0, 0, 0, 0, 0]]
+
+const blackPawnGoodPositions = [[0, 0, 0, 0, 0],
+                          [1, 1, 1, 1, 1],
+                          [1, 2, 2, 2, 1],
+                          [2, 3, 3, 3, 2],
+                          [3, 4, 4, 4, 3],
+                          [5, 5, 5, 5, 5],]
 const checkmate = 1000
 const stalemate = 0
 const DEPTH = 3
