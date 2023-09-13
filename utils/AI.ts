@@ -5,7 +5,7 @@ const pieceScore: { [key: string]: number } = {
 }
 const checkmate = 1000
 const stalemate = 0
-const DEPTH = 8
+const DEPTH = 3
 
 let nextMove: Move
 let undoC: number = 0
