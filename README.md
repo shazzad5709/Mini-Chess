@@ -40,7 +40,3 @@ Don't be afraid to sacrifice pieces if it means improving your position or gaini
 ![Screenshot (921)](https://github.com/Labonnya/Mini-Chess/assets/75426550/90cf3c84-2374-4209-8080-dc0902829a8c)
 ![Screenshot (922)](https://github.com/Labonnya/Mini-Chess/assets/75426550/013c5d47-4ed4-4e3e-8bbd-be55a3ccad13)
 ![Screenshot (923)](https://github.com/Labonnya/Mini-Chess/assets/75426550/0612703e-4ba1-42df-974a-90568eba172c)
-
-
-
-
