@@ -1,38 +1,46 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Next.js Mini Chess with AI
 
-## Getting Started
+This is a mini chess game developed using the Next.js framework, where you can play against an AI opponent. It is a simple but fun game that can be enjoyed by players of all ages.
 
-First, run the development server:
+The game features a simple and intuitive user interface, making it easy to learn and play. The AI opponent is challenging but fair, and it will provide you with a good test of your chess skills.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+The game is also highly customizable, allowing you to change the board theme, piece style, and other settings.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# Features
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+Simple and intuitive user interface
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+Play against a challenging AI opponent
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Server-side rendering for improved performance and SEO
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Static site generation for even faster and more scalable performance
 
-## Learn More
+Image optimization for visually appealing graphics
 
-To learn more about Next.js, take a look at the following resources:
+# How to play
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Click on a piece to select it.
+Click on the square where you want to move the piece.
+If the move is valid, the piece will move to the new square.
+If the move is not valid, the piece will remain in its current square.
+To win the game, you must checkmate the other king. Checkmate is when the king is in a position where it can be captured and there is no way to escape.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Have fun!
 
-## Deploy on Vercel
+# Tips for playing against the AI
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The AI is very good at finding and exploiting weaknesses in your position. Be careful not to leave any pieces undefended.
+The AI is also very good at planning ahead. Try to think several moves ahead and anticipate the AI's moves.
+Don't be afraid to sacrifice pieces if it means improving your position or gaining an advantage.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+# Screenshots
+
+![Screenshot (920)](https://github.com/Labonnya/Mini-Chess/assets/75426550/ec5869d9-317b-4a3c-8d4a-94024d9b4edb)
+![Screenshot (921)](https://github.com/Labonnya/Mini-Chess/assets/75426550/90cf3c84-2374-4209-8080-dc0902829a8c)
+![Screenshot (922)](https://github.com/Labonnya/Mini-Chess/assets/75426550/013c5d47-4ed4-4e3e-8bbd-be55a3ccad13)
+![Screenshot (923)](https://github.com/Labonnya/Mini-Chess/assets/75426550/0612703e-4ba1-42df-974a-90568eba172c)
+
+
+
+
