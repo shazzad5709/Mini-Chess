@@ -1,4 +1,4 @@
-# Next.js Mini Chess with AI
+# Next.js Mini Chess with AI     
 
 This is a mini chess game developed using the Next.js framework, where you can play against an AI opponent. It is a simple but fun game that can be enjoyed by players of all ages.
 
